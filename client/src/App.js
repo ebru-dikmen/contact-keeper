@@ -1,23 +1,22 @@
-
-
 import React, { Fragment } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
-import './App.css';
-import ContactState from './components/context/contact/ContactState';
-import AuthState from './components/context/auth/AuthState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import AlertState from './components/context/alert/AlertState';
 import Alerts from './components/layout/Alerts';
-import setAuthToken from './components/utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
+import ContactState from  './components/context/contact/ContactState';
+import AuthState from './components/context/auth/AuthState';
+import AlertState from './components/context/alert/AlertState';
+import './App.css';
+import setAuthToken from "./components/utils/setAuthToken";
+
 if (localStorage.token) {
   setAuthToken(localStorage.token);
-
 }
+
 const App = () => {
   return (
     <AuthState>
@@ -29,10 +28,14 @@ const App = () => {
               <div className='container'>
                 <Alerts />
                 <Routes>
-                  <Route path="/about" element={<About />} /> 
-                   <Route path="/" element={<Home />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/login" element={<Login />} />
+                <Route
+                    exact
+                    path="/"
+                    element={<PrivateRoute Component={Home} />}
+                  />
+                  <Route path='about' element={<About />} />
+                  <Route path='register' element={<Register />} />
+                  <Route path='login' element={<Login />} />
                 </Routes>
               </div>
             </Fragment>
@@ -41,6 +44,6 @@ const App = () => {
       </ContactState>
     </AuthState>
   );
-}
+};
 
 export default App;

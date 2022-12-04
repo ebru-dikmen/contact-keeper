@@ -1,21 +1,41 @@
-import React, { useContext } from 'react';
-import { Route,Navigate } from 'react-router-dom';
-import AuthContext from '../context/auth/authContext';
+import React, { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import AuthContext from "../context/auth/authContext";
 
+// const PrivateRoute = ({ component: Component, ...rest }) => {
+//  o const authContext = useContext(AuthContext);
+//   const { isAuthenticated, loading } = authContext;
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) =>
+//         !isAuthenticated && !loading ? (
+//           <Navigate to="/login" />
+//         ) : (
+//           <Component {...props} />
+//         )
+//       }
+//     />
+//   );
+// };
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const authContext = useContext(AuthContext)
-  const { isAuthenticated, loading } = authContext;
+const PrivateRoute = ({ Component }) => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext;
 
-  return (
-    <Route
-      {...rest}
-      render = {props => !isAuthenticated && !loading ? (
-        <Navigate  to='/login' />
-      ) : (<Component {...props} />)}
-
-    />
-  )
+  return !isAuthenticated ? <Navigate to="/login" /> : <Component />;
+  // return (
+  //   <Route
+  //     {...rest}
+  //     render={(props) =>
+  //       !isAuthenticated && !loading ? (
+  //         <Navigate to="/login" />
+  //       ) : (
+  //         <Component {...props} />
+  //       )
+  //     }
+  //   />
+  // );
 };
 
 export default PrivateRoute;
